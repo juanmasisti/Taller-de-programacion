@@ -1,0 +1,95 @@
+programa ej2P3
+
+procesos
+  proceso irAEsquina(E av: numero; E ca: numero; E queJuntar: numero; E posav: numero; E posca: numero)
+  comenzar
+    BloquearEsquina(av, ca)
+    Pos(av,ca)
+    si (queJuntar = 1)
+      mientras (HayFlorEnLaEsquina)
+        tomarFlor
+    sino
+      mientras (HayPapelEnLaEsquina)
+        tomarPapel
+    Pos(posav, posca)
+    LiberarEsquina(av,ca)
+  fin
+
+  proceso dejarElemento(E queJuntar: numero; E posav: numero; E posca: numero)
+  comenzar
+    BloquearEsquina(10,10)
+    Pos(10,10)
+    si (queJuntar = 1)
+      si (HayFlorEnLaBolsa)
+        depositarFlor
+    sino
+      si (HayPapelEnLaBolsa)
+        depositarPapel
+    Pos(posav, posca)
+    LiberarEsquina(10,10)
+  fin
+  
+
+areas
+  areaF : AreaPC(1,1,5,10)
+  areaP : AreaPC(6,1,10,9)
+  areaFP : AreaPC(10,10,10,10)
+  areaEsp : AreaC(6,10,9,10)
+
+robots
+  robot florero
+  variables
+    ca: numero
+    av : numero
+  comenzar
+    
+    repetir 5
+      Random(av,1,5)
+      Random(ca,1,10)
+      irAEsquina(av,ca, 1, PosAv, PosCa)
+    
+    mientras (HayFlorEnLaBolsa)
+      dejarElemento(1, PosAv, PosCa)
+  fin
+  
+  
+  robot papelero
+  variables
+    ca: numero
+    av : numero
+  comenzar
+    
+    repetir 3
+      Random(av,6,10)
+      Random(ca,1,9)
+      irAEsquina(av,ca, 0, PosAv, PosCa)
+    
+    mientras (HayPapelEnLaBolsa)
+      dejarElemento(0, PosAv, PosCa)
+    
+  fin
+
+variables
+  r1: florero
+  r2: florero
+  r3: papelero
+  r4: papelero
+
+comenzar
+  AsignarArea(r1, areaF)
+  AsignarArea(r2, areaF)
+  AsignarArea(r3, areaP)
+  AsignarArea(r4, areaP)
+  AsignarArea(r1, areaFP)
+  AsignarArea(r2, areaFP)
+  AsignarArea(r3, areaFP)
+  AsignarArea(r4, areaFP)
+  AsignarArea(r1, areaEsp)
+  AsignarArea(r2, areaEsp)
+  AsignarArea(r3, areaEsp)
+  AsignarArea(r4, areaEsp)
+  Iniciar(r1, 6, 10)
+  Iniciar(r2, 7, 10)
+  Iniciar(r3, 8, 10)
+  Iniciar(r4, 9, 10)
+fin

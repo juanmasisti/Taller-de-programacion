@@ -1,0 +1,122 @@
+programa ej1P4
+
+procesos
+  proceso termine(E numRobot: numero)
+  comenzar
+    si (numRobot = 1)
+      EnviarMensaje(1, r1)
+    sino
+      si (numRobot = 2)
+        EnviarMensaje(1, r2)
+      sino
+        EnviarMensaje(1, r3)
+  fin
+  
+  proceso tomarFlores
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  
+  proceso enviarCantidad(ES cantFlores: numero)
+  variables
+    aux: numero
+  comenzar
+    Random(aux, 1, 4)
+    EnviarMensaje(aux, rs)
+    cantFlores := aux
+  fin
+
+areas
+  areaS : AreaP(100,100,100,100)
+  area1 : AreaPC(1,1,1,100)
+  area2 : AreaPC(2,1,2,100)
+  area3 : AreaPC(3,1,3,100)
+robots
+  robot cliente
+  variables
+    quienSoy: numero
+    cantFlores: numero
+    calleActual: numero
+  comenzar
+    RecibirMensaje(quienSoy, rs)
+    
+    calleActual:= PosCa
+    mientras (calleActual < 100)
+      EnviarMensaje(quienSoy, rs)     
+      calleActual := PosCa
+      EnviarMensaje(calleActual, rs)
+      enviarCantidad(cantFlores)
+      RecibirMensaje(quienSoy, rs)  
+      mover
+      tomarFlores
+      mientras ((calleActual < 100) & (cantFlores > 0))
+        depositarFlor
+        cantFlores := cantFlores - 1
+        mover
+        calleActual:= PosCa
+    EnviarMensaje(0, rs) 
+
+  fin
+
+  robot servidor
+  variables
+    numRobot: numero
+    cantFlores: numero
+    posca: numero
+    terminados: numero
+  comenzar
+    EnviarMensaje(1, r1)
+    Informar('YaRecibiDel', 1)
+    EnviarMensaje(2, r2)
+    Informar('YaRecibiDel', 2)
+    EnviarMensaje(3, r3)
+    Informar('YaRecibiDel', 3)
+    
+    terminados := 0
+    
+    mientras (terminados < 3)
+      RecibirMensaje(numRobot, *)
+      si (numRobot = 0)
+        terminados := terminados + 1
+      sino
+        si (numRobot = 1)
+          RecibirMensaje(posca, r1)
+          RecibirMensaje(cantFlores, r1)
+        sino
+          si (numRobot = 2)
+            RecibirMensaje(posca, r2)
+            RecibirMensaje(cantFlores, r2)
+          sino
+            RecibirMensaje(posca, r3)
+            RecibirMensaje(cantFlores, r3)
+        Pos(numRobot, posca + 1)
+      
+      Informar(cantFlores)
+      repetir (cantFlores)
+        depositarFlor
+      Pos(100,100)
+      termine(numRobot)
+      
+  fin
+
+variables
+  r1: cliente
+  r2: cliente
+  r3: cliente
+  rs: servidor
+
+comenzar
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area2)
+  AsignarArea(r3, area3)
+  AsignarArea(rs, area1)
+  AsignarArea(rs, area2)
+  AsignarArea(rs, area3)
+  AsignarArea(rs, areaS)
+  Iniciar(r1, 1,1)
+  Iniciar(r2, 2,1)
+fin
+  Iniciar(r3, 3,1)
+  Iniciar(rs, 100,100)
+fin

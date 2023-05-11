@@ -1,0 +1,98 @@
+programa ej2P4
+
+procesos
+  proceso depositarEnEsquina(E posav: numero; E posca: numero)
+  comenzar
+    BloquearEsquina(50,50)
+    Pos(50,50)
+    repetir 5
+      depositarPapel
+    Pos(posav, posca)
+    LiberarEsquina(50,50)
+  fin
+  
+  proceso juntarEnEsquina(E posav:numero; E posca:numero; ES cantI:numero)
+  variables
+    aux:numero
+    cant:numero
+  comenzar
+    aux:=0
+    BloquearEsquina(50,50)
+    Pos(50,50)
+    Random(cant,2,5)
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      aux:= aux+1
+    repetir aux
+      depositarPapel
+    si (cant<=aux)
+      repetir cant
+        tomarPapel
+      cantI:= 0
+    sino 
+      cantI:= cantI+1
+    Pos(posav,posca)
+    LiberarEsquina(50,50)
+  fin
+areas
+  area1: AreaP(5,1,5,100)
+  area2: AreaP(10,1,10,100)
+  area3: AreaP(11,1,11,1)
+  area4: AreaP(12,1,12,1)
+  areaC: AreaC(50,50,50,50)
+  
+robots
+  robot productor
+  variables
+    cantPapeles: numero
+    posav: numero
+    posca: numero
+  comenzar
+    cantPapeles := 0
+    mientras (PosCa < 100)
+      mientras ((PosCa < 100) & (cantPapeles < 5))
+        mientras (HayPapelEnLaEsquina)
+          tomarPapel
+          cantPapeles:= cantPapeles+1
+        mover
+      cantPapeles := 0
+      posav := PosAv
+      posca := PosCa
+      depositarEnEsquina(posav, posca)
+  fin
+  
+  robot consumidor
+  variables
+    posav: numero
+    posca: numero
+    cantI:numero
+  comenzar
+    posav:= PosAv
+    posca:= PosCa
+    cantI:=0
+    mientras (cantI<=8)
+      juntarEnEsquina(posav,posca,cantI)
+      mientras (HayPapelEnLaBolsa)
+        depositarPapel      
+  fin
+variables
+  r1: productor
+  r2: productor
+  r3: consumidor
+  r4: consumidor
+
+comenzar
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area2)
+  AsignarArea(r3, area3)
+  AsignarArea(r4, area4)
+  AsignarArea(r1, areaC)
+  AsignarArea(r2, areaC)
+  AsignarArea(r3, areaC)
+  AsignarArea(r4, areaC)
+  Iniciar(r1, 5,1)
+  Iniciar(r2, 10,1)
+  Iniciar(r3, 11,1)
+  Iniciar(r4, 12,1)
+fin
+

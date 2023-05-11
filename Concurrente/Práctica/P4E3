@@ -1,0 +1,78 @@
+programa ej3P4
+
+procesos
+  proceso recorrerCinco(E cantEsquinas: numero)
+  variables
+    estoyListo: numero
+  comenzar
+    mientras (PosCa<100) & (cantEsquinas<=5)
+      juntarPapeles
+      mover
+      cantEsquinas:= cantEsquinas+1
+    juntarPapeles
+  fin
+  
+  proceso  juntarPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel 
+  fin
+  
+  proceso termine(E quienSoy:numero; E t1: numero ;E t2: numero)
+  comenzar
+    si (quienSoy = 1)
+      EnviarMensaje(1,r2)
+      EnviarMensaje(1,r3)
+    sino   
+      si (quienSoy = 2)
+        EnviarMensaje(1,r1)
+        EnviarMensaje(1,r3)
+      sino  
+        EnviarMensaje(1,r1)
+        EnviarMensaje(1,r2)  
+    RecibirMensaje(t1, *)
+    RecibirMensaje(t2, *)  
+  fin
+  
+areas
+  area1: AreaP(1,1,1,100)
+  area2: AreaP(2,1,2,100)
+  area3: AreaP(3,1,3,100)
+  areaJefe: AreaP(4,1,4,1)
+robots
+  robot tipo1
+  variables
+    quienSoy: numero
+    t1: numero
+    t2: numero
+  comenzar
+    RecibirMensaje(quienSoy,rj)
+    mientras (PosCa<100)
+      recorrerCinco(0)
+      termine(quienSoy,t1,t2)
+  fin
+  
+  robot jefe
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+  fin
+ 
+variables
+  r1: tipo1
+  r2: tipo1   
+  r3: tipo1
+  rj: jefe
+comenzar
+  AsignarArea(rj, areaJefe)
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area2)
+  AsignarArea(r3, area3)
+  Iniciar(r1, 1,1)
+  Iniciar(r2, 2,1)
+  Iniciar(r3, 3,1)
+  Iniciar(rj, 4,1)
+fin
+
+

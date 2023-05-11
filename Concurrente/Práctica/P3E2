@@ -1,0 +1,227 @@
+programa ej2P3
+
+procesos
+  proceso juntarFlores(ES cant:numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso juntarPapeles(ES cant:numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+  proceso recorridoP(ES cant:numero)
+  comenzar
+    repetir 5
+      mover
+    juntarPapeles(cant)
+    repetir 3
+      derecha
+    repetir 5
+      mover
+    juntarPapeles(cant)
+    derecha
+    repetir 4
+      mover
+    juntarPapeles(cant)
+    repetir 3
+      derecha
+    repetir 4
+      mover
+    juntarPapeles(cant)
+    derecha
+    repetir 3
+      mover
+    juntarPapeles(cant)
+    repetir 3
+      derecha
+    repetir 3
+      mover
+    juntarPapeles(cant)
+    derecha
+    repetir 2
+      mover
+    juntarPapeles(cant)
+    repetir 3
+      derecha
+    repetir 2
+      mover
+    juntarPapeles(cant)
+    derecha
+    mover
+    juntarPapeles(cant)
+    repetir 3
+      derecha
+    BloquearEsquina(16,16)  
+    mover
+    repetir 2
+      derecha
+    repetir 3
+      mover
+    LiberarEsquina(16,16)
+    juntarPapeles(cant)
+    repetir 3
+      derecha
+    repetir 2
+      mover
+    juntarPapeles(cant)
+    derecha
+    repetir 3
+      mover 
+    juntarPapeles(cant)
+    repetir 3
+      derecha
+    repetir 3
+      mover
+    juntarPapeles(cant)
+    derecha
+    repetir 4
+      mover
+    juntarPapeles(cant)
+    repetir 3
+      derecha
+    repetir 5
+      mover
+    juntarPapeles(cant)
+    derecha
+    repetir 5
+      mover
+    juntarPapeles(cant)
+    repetir 3
+      derecha
+    repetir 5
+      mover
+    juntarPapeles(cant)
+    EnviarMensaje(2,r3)
+  fin
+ 
+  
+  proceso recorridoF (ES cant:numero)
+  comenzar
+    repetir 5
+      mover
+    juntarFlores(cant)
+    derecha 
+    repetir 5
+      mover
+    juntarFlores(cant)
+    repetir 3
+      derecha
+    repetir 4
+      mover
+    juntarFlores(cant)
+    derecha
+    repetir 4
+      mover
+    juntarFlores(cant)
+    repetir 3
+      derecha
+    repetir 3
+      mover
+    juntarFlores(cant)
+    derecha
+    repetir 3
+      mover
+    juntarFlores(cant)
+    repetir 3
+      derecha
+    repetir 2
+      mover
+    juntarFlores(cant)
+    derecha
+    repetir 2
+      mover
+    juntarFlores(cant)
+    repetir 3
+      derecha
+    mover
+    juntarFlores(cant)
+    derecha
+    BloquearEsquina(16,16)
+    mover
+    repetir 2
+      derecha
+    repetir 3
+      mover
+    LiberarEsquina(16,16)
+    juntarFlores(cant)
+    derecha
+    repetir 2
+      mover
+    juntarFlores(cant)
+    repetir 3
+      derecha
+    repetir 3
+      mover 
+    juntarFlores(cant)
+    derecha
+    repetir 3
+      mover
+    juntarFlores(cant)
+    repetir 3
+      derecha
+    repetir 4
+      mover
+    juntarFlores(cant)
+    derecha
+    repetir 5
+      mover
+    juntarFlores(cant)
+    repetir 3
+      derecha
+    repetir 5
+      mover
+    juntarFlores(cant)
+    derecha
+    repetir 5
+      mover
+    juntarFlores(cant)
+    EnviarMensaje(2,r3)
+  fin
+   
+areas
+  area1 : AreaC(1,1,100,100)
+
+robots
+  robot florero
+  variables
+    cant:numero
+  comenzar
+    cant:=0
+    recorridoF(cant)
+  fin
+  
+  
+  robot papelero
+  variables
+    cant:numero
+  comenzar
+    cant:=0
+    recorridoP(cant)
+  fin
+  robot jefe
+  variables
+    quienSoy:numero
+  comenzar
+    RecibirMensaje(quienSoy, *)
+    si (quienSoy=1)
+      Informar(1)
+    sino
+      Informar(2)
+    RecibirMensaje(quienSoy, *)
+  fin
+  
+variables
+  r1: florero
+  r2: papelero
+  r3: jefe
+comenzar
+  AsignarArea(r1, area1)
+  AsignarArea(r2, area1)
+  AsignarArea(r3, area1)
+  Iniciar(r1, 1, 1)
+  Iniciar(r2, 31, 1)
+  Iniciar(r3, 15, 1)
+
+fin
